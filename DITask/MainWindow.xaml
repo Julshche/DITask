@@ -1,0 +1,75 @@
+﻿<Window x:Class="DITask.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DITask.TaskVews"
+        xmlns:HelixToolkit="http://helix-toolkit.org/wpf"
+        mc:Ignorable="d"
+         Style="{StaticResource MyStyle}"
+        Title="MainWindow" Height="400" Width="600">
+   
+        <Window.Resources>
+        <DataTemplate  DataType="{x:Type local:TasksViewModel}">
+            <local:TaskView />
+        </DataTemplate>
+        <DataTemplate  DataType="{x:Type local:TaskViewModelMax}">
+            <local:Task5 />
+        </DataTemplate>
+        
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="SystemCommands.CloseWindowCommand"
+                    Executed="CloseApp"/>
+        <CommandBinding Command="SystemCommands.MaximizeWindowCommand"
+                    Executed="MaxApp"/>
+        <CommandBinding Command="SystemCommands.MinimizeWindowCommand"
+                    Executed="MinApp"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+
+        <Grid Grid.Column="0">
+            <Border BorderBrush="Black" BorderThickness="0 0 2 0">
+                <ItemsControl ItemsSource="{Binding PageViewModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 2"  HorizontalAlignment="Stretch">
+                                
+                                <Button Content="{Binding Name}" Style="{DynamicResource ButtonStyle}" 
+                                 Width="60" Height="30"
+                                Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding}"
+                               
+                                Margin="2,5" /><!--Background="{x:Null}" BorderBrush="{x:Null}"-->
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </Grid>
+        <!--<Grid Grid.Column="1" >
+            <Border BorderBrush="Black" BorderThickness="0 0 0 2">
+                <ContentControl Content="{Binding CurrentPageViewModel}" HorizontalAlignment="Left">
+                </ContentControl>--><!--<local:My3DStage></local:My3DStage>--><!--
+            </Border>
+        </Grid>-->
+
+        <Grid Grid.Column="1">
+            
+            <ContentControl Content="{Binding CurrentPageViewModel}">
+            </ContentControl>
+            <StatusBar
+            DockPanel.Dock="Bottom"
+            Height="24" VerticalAlignment="Bottom" Background="{x:Null}">
+                <StatusBarItem HorizontalAlignment="Right">
+                    <ResizeGrip Opacity="0.75" />
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>
